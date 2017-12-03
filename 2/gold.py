@@ -1,18 +1,16 @@
+def calc(data):
+    sum = 0
+    for row in data:
+        row.sort()
+        for i, x in enumerate(row):
+            for j, y in enumerate(row[i+1:]):
+                if y % x == 0:
+                    sum += y / x
+    return sum
+
 def main(filename):
-    def calc(data):
-        sum = 0
-        for row in data:
-            row.sort()
-            for i, x in enumerate(row):
-                for j, y in enumerate(row[i+1:]):
-                    if y % x == 0:
-                        sum += y / x
-        return sum
-    with open(filename, 'r') as f:
-        data = []
-        for line in f:
-            data.append(map(int, line.split()))
-        print(calc(data))
+    import reader
+    print calc(reader.readInt(filename))
 
 if __name__ == "__main__":
     import sys
