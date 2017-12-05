@@ -1,7 +1,7 @@
 import unittest
 import gold as target
 
-class TestSilver(unittest.TestCase):
+class TestGold(unittest.TestCase):
     def test_silver_example(self):
         self.assertTrue(target.test('aa bb cc dd ee'))
         self.assertFalse(target.test('aa bb cc dd aa'))
