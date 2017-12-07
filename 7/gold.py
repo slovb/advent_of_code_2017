@@ -4,10 +4,14 @@ class Node:
         self.weight = weight
         self.children = children
     def __str__(self):
-        return "{} {}/{}".format(
+        children = []
+        for c in self.children:
+            children.append(c.key)
+        return "{} {}/{}: {}".format(
             self.key,
             self.weight,
-            self.total()
+            self.total(),
+            ', '.join(children)
         )
     def total(self):
         w = self.weight
@@ -22,30 +26,16 @@ class Node:
                     return False
         return True
 
-def findRoot(nodes):
-    node = nodes[0]
-    parent = None
-    while True:
-        for potential in nodes:
-            # find parent
-            if node in potential.children:
-                parent = potential
-                break
-        if parent == None:
-            return node
-        node = parent
-        parent = None
-
 def findUnbalance(node):
-    # abuse that we know only one branch is unbalanced
+    # abuse that we know only one branch is inbalanced
     for c in node.children:
         if not c.isBalanced():
             return findUnbalance(c)
     return node
 
-def calc(nodes):
-    root = findRoot(nodes)
+def calc(root):
     node = findUnbalance(root)
+    # figure out how to balance 
     totals = {}
     for c in node.children:
         t = c.total()
@@ -65,8 +55,7 @@ def calc(nodes):
 def read(filename):
     with open(filename, 'r') as f:
         lines = f.readlines()
-        data = []
-        lookup = {}
+        nodes = []
         for line in lines:
             d = line.split()
             key = d[0]
@@ -74,16 +63,30 @@ def read(filename):
             children = []
             for c in d[3:]:
                 children.append(c.strip(','))
-            node = Node(key, weight, children)
-            data.append(node)
-            lookup.update({key: node})
-        # second pass makes it a proper tree
-        for node in data:
-            children = []
-            for key in node.children:
-               children.append(lookup[key])
-            node.children = children
-        return data
+            nodes.append({'key': key, 'weight': weight, 'children': children})
+        reference = {}
+        node = None
+        # add any node whose children already exists
+        while len(nodes) > 0:
+            i = len(nodes) - 1
+            # loop backwards so we can pop the list as we go
+            while i >= 0:
+                incomplete = False
+                for c in nodes[i]['children']:
+                    if not c in reference:
+                        incomplete = True # missing children
+                        break
+                if not incomplete:
+                    key = nodes[i]['key']
+                    weight = nodes[i]['weight']
+                    children = []
+                    for ckey in nodes[i]['children']:
+                        children.append(reference[ckey])
+                    node = Node(key, weight, children)
+                    reference.update({key: node})
+                    nodes.pop(i) # note removal
+                i -= 1
+        return node
 
 def main(filename):
     print calc(read(filename))

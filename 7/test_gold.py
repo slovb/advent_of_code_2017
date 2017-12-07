@@ -17,8 +17,7 @@ class Tester(unittest.TestCase):
         padx = target.Node('padx', 45, [pbga, havc, qoyq])
         ugml = target.Node('ugml', 68, [gyxo, ebii, jptl])
         tknk = target.Node('tknk', 41, [ugml, padx, fwft])
-        example = [pbga,xhth,ebii,havc,ktlj,fwft,qoyq,padx,tknk,jptl,ugml,gyxo,cntj]
-        self.assertEqual(target.calc(example), 60)
+        self.assertEqual(target.calc(tknk), 60)
 
 if __name__ == '__main__':
     unittest.main()
