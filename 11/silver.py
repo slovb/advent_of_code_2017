@@ -42,5 +42,3 @@ if __name__ == "__main__":
         exit()
     for f in sys.argv[1:]:
         main(f)
-
-
