@@ -35,17 +35,6 @@ def knot(key, row):
     hexed = [format(x, '02x') for x in dense]
     return ''.join(hexed)
 
-def read(filename):
-    with open(filename, 'r') as f:
-        layers = {}
-        lines = f.readlines()
-        for line in lines:
-            parts = line.split(' ')
-            key = int(parts[0].rstrip(':'))
-            depth = int(parts[1])
-            layers.update({key: depth})
-        return layers
-
 def main(key):
     print calc(key)
 
