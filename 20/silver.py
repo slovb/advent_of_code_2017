@@ -35,7 +35,6 @@ def calc(particles):
         c += 1
     return last
 
-
 def read(filename):
     def splint(v):
         return tuple([int(c) for c in v.split(',')])
