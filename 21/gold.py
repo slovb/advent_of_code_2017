@@ -1,6 +1,6 @@
 class Grid:
-    def __init__(self):
-        self.state = '.#./..#/###'
+    def __init__(self, state):
+        self.state = state
 
     def enhance(self, ruleset):
         cellSize = None
@@ -59,7 +59,7 @@ class Grid:
         return '\n'.join(self.state.split('/'))
 
 def calc(ruleset, iterations):
-    grid = Grid()
+    grid = Grid('.#./..#/###')
     for i in range(iterations):
         grid.enhance(ruleset)
     return grid.count()
